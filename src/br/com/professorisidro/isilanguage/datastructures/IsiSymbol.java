@@ -20,7 +20,6 @@ public abstract class IsiSymbol {
 		this.name = name;
 	}
 
-
 	@Override
 	public String toString() {
 		return "IsiSymbol [name=" + name + "]";

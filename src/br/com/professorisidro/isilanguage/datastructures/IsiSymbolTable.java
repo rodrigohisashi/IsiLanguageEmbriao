@@ -20,6 +20,10 @@ public class IsiSymbolTable {
 	public boolean exists(String symbolName) {
 		return map.get(symbolName) != null;
 	}
+
+	public void attributeValue(String symbolName, IsiSymbol newValue) {
+		map.replace(symbolName, newValue);
+	}
 	
 	public IsiSymbol get(String symbolName) {
 		return map.get(symbolName);
@@ -31,6 +35,15 @@ public class IsiSymbolTable {
 			lista.add(symbol);
 		}
 		return lista;
+	}
+
+	public void notUsed(){
+		for (IsiSymbol symbol : map.values()) {
+			IsiVariable s = (IsiVariable) symbol;
+			if (s.getValue()==null) {
+				System.out.println("Variable [" + s.getName() + "] was declared but never used");
+			}
+		}
 	}
 
 	

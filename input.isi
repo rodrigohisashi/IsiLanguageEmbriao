@@ -8,7 +8,9 @@ programa
 
   a := ((1+2)+(3))/(b-1).
 
-  t1 := "".
+  b := 21.
+
+  t1 := "Sa".
 
   se ( a > b ) entao {
      escreva (a).

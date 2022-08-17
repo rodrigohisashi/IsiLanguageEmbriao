@@ -22,6 +22,7 @@ grammar IsiLang;
 	private String _varValue;
 	private IsiSymbolTable symbolTable = new IsiSymbolTable();
 	private IsiSymbol symbol;
+	private IsiVariable var;
 	private IsiProgram program = new IsiProgram();
 	private ArrayList<AbstractCommand> curThread;
 	private Stack<ArrayList<AbstractCommand>> stack = new Stack<ArrayList<AbstractCommand>>();
@@ -39,6 +40,10 @@ grammar IsiLang;
 		if (!symbolTable.exists(id)){
 			throw new IsiSemanticException("Symbol "+id+" not declared");
 		}
+	}
+
+	public void verificaUtil(){
+	    symbolTable.notUsed();
 	}
 	
 	public void exibeComandos(){
@@ -143,6 +148,11 @@ cmdattrib	:  ID { verificaID(_input.LT(-1).getText());
                expr 
                SC
                {
+                 var = (IsiVariable)symbolTable.get(_exprID);
+               	 if (_exprContent.length() > 0) {
+                    var.setValue(_exprContent);
+                    symbolTable.attributeValue(var.getName(), var);
+               	 }
                	 CommandAtribuicao cmd = new CommandAtribuicao(_exprID, _exprContent);
                	 stack.peek().add(cmd);
                }
