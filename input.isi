@@ -6,9 +6,9 @@ programa
   leia(a).
   leia(b).
 
-  a := (9) + 4 * 3.
+  a := ((1+2)+(3))/(b-1).
 
-
+  t1 := "".
 
   se ( a > b ) entao {
      escreva (a).

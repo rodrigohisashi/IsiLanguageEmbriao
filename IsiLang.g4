@@ -206,13 +206,45 @@ expr		:
 	              termo
 	            )*
 	            |
-	             AP  { _exprContent += _input.LT(-1).getText();} termo  (
+	             AP  { _exprContent += _input.LT(-1).getText();}
+	             termo  (
                   OP  { _exprContent += _input.LT(-1).getText();}
                     termo
                   )* FP  { _exprContent += _input.LT(-1).getText();}(
                      OP  { _exprContent += _input.LT(-1).getText();}
-                    termo
-                  )*
+                     AP  { _exprContent += _input.LT(-1).getText();}
+                    expr
+                     FP  { _exprContent += _input.LT(-1).getText();}
+                  )* (OP  { _exprContent += _input.LT(-1).getText();}
+                      expr
+                      )*
+                |
+                 termo  (
+                 OP  { _exprContent += _input.LT(-1).getText();}
+                 termo
+                 )* ( OP  { _exprContent += _input.LT(-1).getText();}
+                      AP  { _exprContent += _input.LT(-1).getText();}
+                      expr
+                      FP  { _exprContent += _input.LT(-1).getText();}
+                      )*
+                      (OP  { _exprContent += _input.LT(-1).getText();}
+                       expr
+                      )*
+                 | AP { _exprContent += _input.LT(-1).getText();}
+                   (
+                   expr
+                   AP { _exprContent += _input.LT(-1).getText();}
+                   )*
+                   expr
+                   (
+                   FP { _exprContent += _input.LT(-1).getText();}
+                   expr
+                   )*
+                   FP { _exprContent += _input.LT(-1).getText();}
+                   (
+                   OP { _exprContent += _input.LT(-1).getText();}
+                   expr
+                   )*
 			;
 			
 termo		: ID { verificaID(_input.LT(-1).getText());
@@ -223,9 +255,13 @@ termo		: ID { verificaID(_input.LT(-1).getText());
               {
               	_exprContent += _input.LT(-1).getText();
               }
+			|
+			  TEXT
+			  {
+                _exprContent += _input.LT(-1).getText();
+              }
 			;
-			
-	
+
 AP	: '('
 	;
 	
@@ -249,8 +285,7 @@ ACH  : '{'
      
 FCH  : '}'
      ;
-	 
-	 
+
 OPREL : '>' | '<' | '>=' | '<=' | '==' | '!='
       ;
       
@@ -259,5 +294,14 @@ ID	: [a-z] ([a-z] | [A-Z] | [0-9])*
 	
 NUMBER	: [0-9]+ ('.' [0-9]+)?
 		;
-		
+
+TEXT    : '"' ([a-z] | [A-Z] | [0-9] | WS | SP | AC)* '"'
+        ;
+
+SP      : [!-_]
+        ;
+
+AC      : ('~' | '{' | '}' | '´' | '`')
+        ;
+
 WS	: (' ' | '\t' | '\n' | '\r') -> skip;
