@@ -36,16 +36,6 @@ public class IsiSymbolTable {
 		}
 		return lista;
 	}
-
-	public void notUsed(){
-		for (IsiSymbol symbol : map.values()) {
-			IsiVariable s = (IsiVariable) symbol;
-			if (s.getValue()==null) {
-				System.out.println("Variable [" + s.getName() + "] was declared but never used");
-			}
-		}
-	}
-
 	
 	
 }

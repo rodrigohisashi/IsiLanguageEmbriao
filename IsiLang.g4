@@ -29,9 +29,12 @@ grammar IsiLang;
 	private String _readID;
 	private String _writeID;
 	private String _exprID;
+	private String _repID;
+	private String _decID;
 	private String _exprContent;
 	private String _exprDecision;
 	private String _exprRepetition;
+	private ArrayList<String> notUsed = new ArrayList<String>();
 	private ArrayList<AbstractCommand> listaTrue;
 	private ArrayList<AbstractCommand> listaFalse;
 	private ArrayList<AbstractCommand> listaBloco;
@@ -43,7 +46,9 @@ grammar IsiLang;
 	}
 
 	public void verificaUtil(){
-	    symbolTable.notUsed();
+	    for (String s: notUsed) {
+	        System.out.println("Warning: Variable " + s + " was declared but never used!");
+	    }
 	}
 	
 	public void exibeComandos(){
@@ -73,7 +78,8 @@ declaravar :  tipo ID  {
 	                  _varValue = null;
 	                  symbol = new IsiVariable(_varName, _tipo, _varValue);
 	                  if (!symbolTable.exists(_varName)){
-	                     symbolTable.add(symbol);	
+	                     symbolTable.add(symbol);
+	                     notUsed.add(_varName);
 	                  }
 	                  else{
 	                  	 throw new IsiSemanticException("Symbol "+_varName+" already declared");
@@ -85,7 +91,8 @@ declaravar :  tipo ID  {
 	                  _varValue = null;
 	                  symbol = new IsiVariable(_varName, _tipo, _varValue);
 	                  if (!symbolTable.exists(_varName)){
-	                     symbolTable.add(symbol);	
+	                     symbolTable.add(symbol);
+	                     notUsed.add(_varName);
 	                  }
 	                  else{
 	                  	 throw new IsiSemanticException("Symbol "+_varName+" already declared");
@@ -117,6 +124,7 @@ cmd		:  cmdleitura
 cmdleitura	: 'leia' AP
                      ID { verificaID(_input.LT(-1).getText());
                      	  _readID = _input.LT(-1).getText();
+                     	  if (notUsed.contains(_readID)) notUsed.remove(_readID);
                         } 
                      FP 
                      SC 
@@ -132,6 +140,7 @@ cmdescrita	: 'escreva'
                  AP 
                  ID { verificaID(_input.LT(-1).getText());
 	                  _writeID = _input.LT(-1).getText();
+	                  if (notUsed.contains(_writeID)) notUsed.remove(_writeID);
                      } 
                  FP 
                  SC
@@ -143,16 +152,19 @@ cmdescrita	: 'escreva'
 			
 cmdattrib	:  ID { verificaID(_input.LT(-1).getText());
                     _exprID = _input.LT(-1).getText();
+                    if (notUsed.contains(_exprID)) notUsed.remove(_exprID);
+                    var = (IsiVariable)symbolTable.get(_exprID);
+                    _tipo = var.getType();
                    } 
                ATTR { _exprContent = ""; } 
                expr 
                SC
                {
-                 var = (IsiVariable)symbolTable.get(_exprID);
-               	 if (_exprContent.length() > 0) {
-                    var.setValue(_exprContent);
-                    symbolTable.attributeValue(var.getName(), var);
-               	 }
+
+
+                 var.setValue(_exprContent);
+                 symbolTable.attributeValue(var.getName(), var);
+
                	 CommandAtribuicao cmd = new CommandAtribuicao(_exprID, _exprContent);
                	 stack.peek().add(cmd);
                }
@@ -160,9 +172,15 @@ cmdattrib	:  ID { verificaID(_input.LT(-1).getText());
 			
 
 cmdrepeticao: 'enquanto' AP
-                         ID    { _exprRepetition = _input.LT(-1).getText(); }
+                         ID    { _repID = _input.LT(-1).getText();
+                                 _exprRepetition = _input.LT(-1).getText();
+                                 if (notUsed.contains(_repID)) notUsed.remove(_repID);}
                          OPREL { _exprRepetition += _input.LT(-1).getText(); }
-                         (ID | NUMBER) {_exprRepetition += _input.LT(-1).getText(); }
+                         (ID | NUMBER) {
+                                        _repID = _input.LT(-1).getText();
+                                        _exprRepetition += _input.LT(-1).getText();
+                                        if (notUsed.contains(_repID)) notUsed.remove(_repID);
+                                        }
                          FP
                          ACH
                          { curThread = new ArrayList<AbstractCommand>();
@@ -179,9 +197,17 @@ cmdrepeticao: 'enquanto' AP
 
 
 cmdselecao  :  'se' AP
-                    ID    { _exprDecision = _input.LT(-1).getText(); }
+                    ID    {
+                            _decID = _input.LT(-1).getText();
+                            _exprDecision = _input.LT(-1).getText();
+                            if (notUsed.contains(_decID)) notUsed.remove(_decID);
+                            }
                     OPREL { _exprDecision += _input.LT(-1).getText(); }
-                    (ID | NUMBER) {_exprDecision += _input.LT(-1).getText(); }
+                    (ID | NUMBER) {
+                            _decID = _input.LT(-1).getText();
+                            _exprDecision = _input.LT(-1).getText();
+                            if (notUsed.contains(_decID)) notUsed.remove(_decID);
+                            }
                     FP
                     'entao'
                     ACH 
@@ -213,34 +239,10 @@ cmdselecao  :  'se' AP
 expr		:
                   termo  (
 	             OP  { _exprContent += _input.LT(-1).getText();}
-	              termo
+	              expr
 	            )*
-	            |
-	             AP  { _exprContent += _input.LT(-1).getText();}
-	             termo  (
-                  OP  { _exprContent += _input.LT(-1).getText();}
-                    termo
-                  )* FP  { _exprContent += _input.LT(-1).getText();}(
-                     OP  { _exprContent += _input.LT(-1).getText();}
-                     AP  { _exprContent += _input.LT(-1).getText();}
-                    expr
-                     FP  { _exprContent += _input.LT(-1).getText();}
-                  )* (OP  { _exprContent += _input.LT(-1).getText();}
-                      expr
-                      )*
-                |
-                 termo  (
-                 OP  { _exprContent += _input.LT(-1).getText();}
-                 termo
-                 )* ( OP  { _exprContent += _input.LT(-1).getText();}
-                      AP  { _exprContent += _input.LT(-1).getText();}
-                      expr
-                      FP  { _exprContent += _input.LT(-1).getText();}
-                      )*
-                      (OP  { _exprContent += _input.LT(-1).getText();}
-                       expr
-                      )*
-                 | AP { _exprContent += _input.LT(-1).getText();}
+                 |
+                   AP { _exprContent += _input.LT(-1).getText();}
                    (
                    expr
                    AP { _exprContent += _input.LT(-1).getText();}
@@ -255,25 +257,39 @@ expr		:
                    OP { _exprContent += _input.LT(-1).getText();}
                    expr
                    )*
-			;
+                   |
+                   TEXT
+                   {
+                       if (_tipo == 0) throw new IsiSemanticException("Data type error in variable " + var.getName() + " : expected a number but got a string.");
+                       _exprContent += _input.LT(-1).getText();
+                   }
+			    ;
 			
 termo		: ID { verificaID(_input.LT(-1).getText());
-	               _exprContent += _input.LT(-1).getText();
+                   _varName = _input.LT(-1).getText();
+	               IsiVariable varAttr = (IsiVariable)symbolTable.get(_input.LT(-1).getText());
+	               if (_tipo == 0 && _tipo != varAttr.getType()) {
+	                    throw new IsiSemanticException("Data type error in variable " + var.getName() + " : expected a number but got a string.");
+	               }
+	               if (_tipo == 1 && _tipo != varAttr.getType()) {
+	                    throw new IsiSemanticException("Data type error in variable " + var.getName() + " : expected a string but got a number.");
+	               }
+                   if (notUsed.contains(_input.LT(-1).getText())) notUsed.remove(_input.LT(-1).getText());
+                   _exprContent += _input.LT(-1).getText();
                  } 
             | 
               NUMBER
               {
+                if(_tipo == 1) throw new IsiSemanticException("Data type error in variable " + var.getName() + " : expected a string but got a number.");
               	_exprContent += _input.LT(-1).getText();
-              }
-			|
-			  TEXT
-			  {
-                _exprContent += _input.LT(-1).getText();
               }
 			;
 
 AP	: '('
 	;
+
+ASP : '"'
+    ;
 	
 FP	: ')'
 	;
@@ -283,6 +299,9 @@ SC	: '.'
 	
 OP	: '+' | '-' | '*' | '/'
 	;
+
+CONC : '+'
+     ;
 	
 ATTR : ':='
 	 ;
@@ -296,6 +315,9 @@ ACH  : '{'
 FCH  : '}'
      ;
 
+OPLOG : '&&' | '||' | '!'
+      ;
+
 OPREL : '>' | '<' | '>=' | '<=' | '==' | '!='
       ;
       
@@ -305,7 +327,21 @@ ID	: [a-z] ([a-z] | [A-Z] | [0-9])*
 NUMBER	: [0-9]+ ('.' [0-9]+)?
 		;
 
-TEXT    : '"' ([a-z] | [A-Z] | [0-9] | WS | SP | AC)* '"'
+INTEGER	: [0-9]+
+		;
+
+DOUBLE	: [0-9]+ ('.' [0-9]+)?
+		;
+
+exprbol :
+        ;
+
+BOOL    : 'True'
+          |
+          'False'
+        ;
+
+TEXT    : ASP ([a-z] | [A-Z] | [0-9] | WS | SP | AC)*? ASP
         ;
 
 SP      : [!-_]

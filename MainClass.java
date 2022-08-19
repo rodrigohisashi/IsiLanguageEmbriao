@@ -5,12 +5,13 @@ public class MainClass{
 double  a;
 double  b;
 String  t1;
+String  t2;
 a= _key.nextDouble();
 b= _key.nextDouble();
-a = ((1+2)+(3))/(b-1);
-b = 21;
-t1 = "Sa";
-if (a>b) {
+t1 = "dadas";
+a = 31.213;
+b = (4*3)+(1+2.8989+3+4);
+if (b) {
 System.out.println(a);}else {
 System.out.println(b);}
 

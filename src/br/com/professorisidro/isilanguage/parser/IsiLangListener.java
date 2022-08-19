@@ -152,4 +152,14 @@ public interface IsiLangListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitTermo(IsiLangParser.TermoContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link IsiLangParser#exprbol}.
+	 * @param ctx the parse tree
+	 */
+	void enterExprbol(IsiLangParser.ExprbolContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link IsiLangParser#exprbol}.
+	 * @param ctx the parse tree
+	 */
+	void exitExprbol(IsiLangParser.ExprbolContext ctx);
 }

@@ -1,16 +1,16 @@
 programa
-
   numero a, b.
-  texto  t1.
+  texto  t1, t2.
 
   leia(a).
   leia(b).
 
-  a := ((1+2)+(3))/(b-1).
+  t1 := "dadas".
 
-  b := 21.
 
-  t1 := "Sa".
+  a := 31.213.
+
+  b := (4*3)+(1+2.8989+3+4).
 
   se ( a > b ) entao {
      escreva (a).
