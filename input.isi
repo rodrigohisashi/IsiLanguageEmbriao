@@ -1,23 +1,32 @@
 programa
-  numero a, b.
+  inteiro a.
+  real b.
   texto  t1, t2.
 
   leia(a).
   leia(b).
 
-  t1 := "dadas".
+  t1 := "Olá mundo!".
 
+  t2 := "Sou da UFABC".
 
-  a := 31.213.
+  a := 31213.
 
   b := (4*3)+(1+2.8989+3+4).
 
-  se ( a > b ) entao {
+  escolha (a) {
+     caso 1:
+        escreva(a).
+     caso 2:
+        escreva(t2).
+     padrao:
+        a := 534.
+  }
+
+  se (a > b) entao {
      escreva (a).
   }
-  senao {
-     escreva (b).
-  }
+
   enquanto (a > b) {
      a := a + 1.
   }

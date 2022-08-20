@@ -12,6 +12,7 @@ package br.com.professorisidro.isilanguage.parser;
 	import br.com.professorisidro.isilanguage.ast.CommandAtribuicao;
 	import br.com.professorisidro.isilanguage.ast.CommandDecisao;
 	import br.com.professorisidro.isilanguage.ast.CommandRepeticao;
+	import br.com.professorisidro.isilanguage.ast.CommandEscolha;
 	import java.util.ArrayList;
 	import java.util.Stack;
 
@@ -113,6 +114,16 @@ public interface IsiLangListener extends ParseTreeListener {
 	 */
 	void exitCmdattrib(IsiLangParser.CmdattribContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link IsiLangParser#cmdescolha}.
+	 * @param ctx the parse tree
+	 */
+	void enterCmdescolha(IsiLangParser.CmdescolhaContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link IsiLangParser#cmdescolha}.
+	 * @param ctx the parse tree
+	 */
+	void exitCmdescolha(IsiLangParser.CmdescolhaContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link IsiLangParser#cmdrepeticao}.
 	 * @param ctx the parse tree
 	 */
@@ -152,14 +163,4 @@ public interface IsiLangListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitTermo(IsiLangParser.TermoContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link IsiLangParser#exprbol}.
-	 * @param ctx the parse tree
-	 */
-	void enterExprbol(IsiLangParser.ExprbolContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link IsiLangParser#exprbol}.
-	 * @param ctx the parse tree
-	 */
-	void exitExprbol(IsiLangParser.ExprbolContext ctx);
 }

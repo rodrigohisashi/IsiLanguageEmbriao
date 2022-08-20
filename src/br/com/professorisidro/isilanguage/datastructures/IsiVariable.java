@@ -2,8 +2,9 @@ package br.com.professorisidro.isilanguage.datastructures;
 
 public class IsiVariable extends IsiSymbol {
 	
-	public static final int NUMBER=0;
-	public static final int TEXT  =1;
+	public static final int INTEGER = 0;
+	public static final int TEXT    = 1;
+	public static final int DOUBLE  = 2;
 	
 	private int type;
 	private String value;
@@ -37,7 +38,10 @@ public class IsiVariable extends IsiSymbol {
 	
 	public String generateJavaCode() {
        String str;
-       if (type == NUMBER) {
+       if (type == INTEGER) {
+		   str = "int ";
+	   }
+       else if (type == DOUBLE) {
     	   str = "double ";
        }
        else {

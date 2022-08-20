@@ -13,6 +13,15 @@ public class CommandDecisao extends AbstractCommand {
 		this.listaTrue = lt;
 		this.listaFalse = lf;
 	}
+
+	public void setListaTrue(ArrayList<AbstractCommand> listaTrue) {
+		this.listaTrue = listaTrue;
+	}
+
+	public void setListaFalse(ArrayList<AbstractCommand> listaFalse) {
+		this.listaFalse = listaFalse;
+	}
+
 	@Override
 	public String generateJavaCode() {
 		// TODO Auto-generated method stub
