@@ -49,7 +49,20 @@ public class IsiVariable extends IsiSymbol {
        }
        return str + " "+super.name+";";
 	}
-	
-	
+
+	public String generateCppCode() {
+		String str;
+		if (type == INTEGER) {
+			str = "int ";
+		}
+		else if (type == DOUBLE) {
+			str = "double ";
+		}
+		else {
+			str = "string ";
+		}
+		return str + " "+super.name+";";
+	}
+
 
 }

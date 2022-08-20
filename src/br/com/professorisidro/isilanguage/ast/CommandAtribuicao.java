@@ -16,6 +16,12 @@ public class CommandAtribuicao extends AbstractCommand{
 		// TODO Auto-generated method stub
 		return id + " = "+expr+";";
 	}
+
+	@Override
+	public String generateCppCode() {
+		return id + " = "+expr+";";
+	}
+
 	@Override
 	public String toString() {
 		return "CommandAtribuicao [id=" + id + ", expr=" + expr + "]";

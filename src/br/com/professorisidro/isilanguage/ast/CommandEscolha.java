@@ -56,6 +56,34 @@ public class CommandEscolha extends AbstractCommand {
         str.append("}\n");
         return str.toString();
     }
+
+    @Override
+    public String generateCppCode() {
+        // TODO Auto-generated method stub
+        StringBuilder str = new StringBuilder();
+        str.append("switch ("+escolha+") {\n");
+        if (casos.size() > 0) {
+            int i = 0;
+            for (ArrayList<AbstractCommand> arrayCmd: casos) {
+                str.append("    case ");
+                str.append(condicao.get(i));
+                str.append(":\n");
+                arrayCmd.forEach(cmd -> {
+                    str.append("        " + cmd.generateCppCode() + "\n");
+                });
+                i++;
+            }
+        }
+        if (padrao.size() > 0) {
+            str.append("    default:\n");
+            padrao.forEach(padrao -> {
+                str.append("        " + padrao.generateCppCode() + "\n");
+            });
+        }
+        str.append("}\n");
+        return str.toString();
+    }
+
     @Override
     public String toString() {
         return "CommandEscolha [String=" + escolha + ", casos=" + casos + ", condicao=" + condicao + " padrao=" + padrao +

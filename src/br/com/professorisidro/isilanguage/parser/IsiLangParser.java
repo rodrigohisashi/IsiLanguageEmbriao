@@ -150,6 +150,7 @@ public class IsiLangParser extends Parser {
 		
 		public void generateCode(){
 			program.generateTarget();
+			program.generateTargetCpp();
 		}
 
 	public IsiLangParser(TokenStream input) {

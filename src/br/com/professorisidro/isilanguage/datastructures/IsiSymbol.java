@@ -5,6 +5,8 @@ public abstract class IsiSymbol {
 	protected String name;
 	
 	public abstract String generateJavaCode();
+
+	public abstract String generateCppCode();
 	public IsiSymbol(String name) {
 		this.name = name;
 		

@@ -25,6 +25,18 @@ public class CommandRepeticao extends AbstractCommand{
     }
 
     @Override
+    public String generateCppCode() {
+        StringBuilder str = new StringBuilder();
+
+        str.append("while ("+condition+") {\n");
+        for (AbstractCommand cmd: listaBloco) {
+            str.append(cmd.generateCppCode());
+        }
+        str.append("}");
+        return str.toString();
+    }
+
+    @Override
     public String toString() {
         return "CommandRepeticao [condition=" + condition + ", listaBloco= " + listaBloco + "]";
     }

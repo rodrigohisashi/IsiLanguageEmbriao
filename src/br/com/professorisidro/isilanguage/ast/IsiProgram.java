@@ -38,6 +38,34 @@ public class IsiProgram {
 
 	}
 
+	public void generateTargetCpp() {
+		StringBuilder str = new StringBuilder();
+		str.append("#include <iostream>\n");
+		str.append("#include <string>\n");
+
+		str.append("using namespace std;\n");
+		str.append("int main(void) { \n");
+		for (IsiSymbol symbol: varTable.getAll()) {
+			str.append(symbol.generateCppCode()+"\n");
+		}
+		for (AbstractCommand command: comandos) {
+			str.append(command.generateCppCode()+"\n");
+		}
+
+		str.append("return 0;");
+		str.append("}");
+
+		try {
+			FileWriter fr = new FileWriter("File.cpp");
+			fr.write(str.toString());
+			fr.close();
+		}
+		catch(Exception ex) {
+			ex.printStackTrace();
+		}
+
+	}
+
 	public IsiSymbolTable getVarTable() {
 		return varTable;
 	}
