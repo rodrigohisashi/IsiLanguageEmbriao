@@ -5,6 +5,9 @@ public class IsiVariable extends IsiSymbol {
 	public static final int INTEGER = 0;
 	public static final int TEXT    = 1;
 	public static final int DOUBLE  = 2;
+	public static final int BOOL    = 3;
+	public static final int CHAR    = 4;
+
 	
 	private int type;
 	private String value;
@@ -44,6 +47,12 @@ public class IsiVariable extends IsiSymbol {
        else if (type == DOUBLE) {
     	   str = "double ";
        }
+       else if (type == BOOL) {
+       	   str = "boolean ";
+	   }
+       else if (type == CHAR) {
+       	   str = "char ";
+	   }
        else {
     	   str = "String ";
        }
@@ -57,6 +66,12 @@ public class IsiVariable extends IsiSymbol {
 		}
 		else if (type == DOUBLE) {
 			str = "double ";
+		}
+		else if (type == BOOL) {
+			str = "bool ";
+		}
+		else if (type == CHAR) {
+			str = "char ";
 		}
 		else {
 			str = "string ";

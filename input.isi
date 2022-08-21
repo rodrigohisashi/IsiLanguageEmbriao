@@ -1,16 +1,26 @@
 programa
   inteiro a.
   real b.
-  texto  t1, t2.
+  texto  t1, t2, t3.
+  caractere c1.
+  booleano b1, b2, b3.
 
   leia(a).
   leia(b).
 
   t1 := "Olá mundo!".
 
-  t2 := "Sou da UFABC".
+  t2 := 'd'.
 
-  a := 31213.
+  b1 := true.
+
+  b2 := false.
+
+  a := t1.
+
+  t3 := c1.
+
+  a := 2.
 
   b := (4*3)+(1+2.8989+3+4).
 
