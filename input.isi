@@ -16,7 +16,9 @@ programa
 
   b2 := false.
 
-  a := 15+15.
+  a := 5.
+
+  b3 := b == a.
 
   t3 := c1.
 

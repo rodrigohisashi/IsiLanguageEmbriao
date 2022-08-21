@@ -26,5 +26,5 @@ Projeto da disciplina de Compiladores com o Professor Francisco Isidro. Trata-se
 
 ## Vídeo
 
-[Vídeo sobre o projeto](https://link-da-documentação)
+[Vídeo sobre o projeto](https://www.youtube.com/watch?v=0sDIQYxhzBA&ab_channel=RodrigoHisashi)
 
