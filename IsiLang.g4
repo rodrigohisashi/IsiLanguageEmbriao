@@ -215,7 +215,9 @@ cmdescolha : 'escolha'
               ACH
               (
               'caso'
-              (ID | INTEGER | DOUBLE | TEXT)
+              (ID {
+                 verificaID(_input.LT(-1).getText());
+              } | INTEGER | DOUBLE | TEXT | CHAR | BOOL)
               {
                  _decID = _input.LT(-1).getText();
                  condicao.add(_input.LT(-1).getText());

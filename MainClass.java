@@ -17,8 +17,7 @@ t1 = "Olá mundo!";
 t2 = 'd';
 b1 = true;
 b2 = false;
-b3 = a==b;
-c1 = a;
+a = 15+15;
 t3 = c1;
 a = 2;
 b = (4*3)+(1+2.8989+3+4);
@@ -35,4 +34,8 @@ if (a>b) {
 System.out.println(a);}
 while (a>b) {
 a = a+1;}
+if (a>b) {
+a = a+1;}else {
+a = a+2;}
+
   }}

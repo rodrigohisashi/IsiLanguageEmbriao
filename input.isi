@@ -16,7 +16,7 @@ programa
 
   b2 := false.
 
-  a := t1.
+  a := 15+15.
 
   t3 := c1.
 
@@ -40,6 +40,13 @@ programa
   enquanto (a > b) {
      a := a + 1.
   }
+
+  se (a > b) entao {
+     a := a + 1.
+  } senao {
+    a:= a + 2.
+  }
+
 
 
 fimprog;
